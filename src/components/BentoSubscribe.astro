@@ -1,0 +1,20 @@
+---
+// Posts straight to Bento's hosted form endpoint, exactly as the Squarespace site does.
+// No Bento script is needed for the form to work.
+import { SITE } from '../lib/site';
+interface Props { headline?: string; button?: string; disclosure?: string; redirect?: string }
+const {
+  headline = 'Stop firefighting. Start scaling',
+  button = 'Make support smoother',
+  disclosure = 'Daily support strategies for Intercom teams who want less chaos and a calmer inbox. Unsubscribe anytime.',
+  redirect = 'https://www.customersuccess.cx/thanks-for-subscribing',
+} = Astro.props;
+---
+<form action={`https://track.bentonow.com/forms/${SITE.bentoSiteKey}/$subscribe?hardened=true`} method="POST" enctype="multipart/form-data" class="bento-formkit">
+  <div class="bento-formkit-headline">{headline}</div>
+  <input type="hidden" name="redirect" value={redirect} />
+  <label class="sr-only" for="bento-email" style="position:absolute;left:-9999px">Email address</label>
+  <input id="bento-email" type="email" name="email" placeholder="Your email address" class="bento-formkit-input" required />
+  <button type="submit" class="bento-formkit-button">{button}</button>
+  <div class="bento-formkit-disclosure">{disclosure}</div>
+</form>

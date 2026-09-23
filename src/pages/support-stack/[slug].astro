@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import { marked } from 'marked';
+import Base from '../../layouts/Base.astro';
+import BentoSubscribe from '../../components/BentoSubscribe.astro';
+import YouTube from '../../components/YouTube.astro';
+import EpisodeSchema from '../../components/EpisodeSchema.astro';
+import { url, formatDate } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('support-stack');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const d = post.data;
+const path = `/support-stack/${post.id}`;
+const canonical = new URL(url(path), Astro.site).href;
+
+// The body is "summary … ## Episode transcript … transcript". Split so the layout can put
+// resources, the subscribe call-to-action and the video between them, in the E15/E16 order.
+const [summaryMd = '', transcriptMd = ''] = (post.body ?? '').split(/^## Episode transcript\s*$/m);
+const summary = marked.parse(summaryMd);
+const transcript = marked.parse(transcriptMd);
+---
+<Base title={`${d.title} | CustomerSuccess.cx`} description={d.excerpt} path={path} image={d.thumbnail}>
+  <EpisodeSchema slot="head" post={post} canonical={canonical} />
+  <article>
+    <section class="hero episode-header">
+      <div class="narrow">
+        <p class="meta">
+          <a href={url('/support-stack')}>Support Stack</a> · {formatDate(d.publishDate)}
+          {d.episode !== undefined && ` · ${d.format === 'solo' ? 'Solo episode' : 'Episode'} ${d.episode}`}
+          {d.guest && ` · with ${d.guest}`}
+        </p>
+        <h1>{d.title}</h1>
+      </div>
+    </section>
+    <section style="padding-top:0">
+      <div class="narrow">
+        <Fragment set:html={summary} />
+
+        {d.resources.length > 0 && (
+          <div class="resources">
+            <h3>🔗 Resources mentioned</h3>
+            <ul>
+              {d.resources.map((r) => (
+                <li>{r.url ? <a href={r.url} target="_blank" rel="noopener">{r.label}</a> : r.label}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div class="cta">
+          Want daily, practical tips on getting the most out of Fin and Intercom? <a href={url('/daily')}>Subscribe to my daily email list</a>.
+        </div>
+
+        {d.youtubeId && <YouTube id={d.youtubeId} title={d.title} />}
+
+        <h2 id="transcript">Episode transcript</h2>
+        <div class="transcript"><Fragment set:html={transcript} /></div>
+
+        <BentoSubscribe headline="Get the daily email" />
+      </div>
+    </section>
+  </article>
+</Base>

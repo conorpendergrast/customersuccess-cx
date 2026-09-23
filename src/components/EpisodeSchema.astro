@@ -1,0 +1,33 @@
+---
+// VideoObject + Article JSON-LD generated from the episode's front matter, replacing the
+// hand-maintained site-wide @graph that lives in Squarespace's footer code injection today.
+import type { CollectionEntry } from 'astro:content';
+interface Props { post: CollectionEntry<'support-stack'>; canonical: string }
+const { post, canonical } = Astro.props;
+const d = post.data;
+const graph: Record<string, unknown>[] = [
+  {
+    '@type': 'Article',
+    headline: d.title,
+    description: d.excerpt,
+    datePublished: d.publishDate.toISOString(),
+    url: canonical,
+    image: d.thumbnail,
+    author: { '@id': 'https://customersuccess.cx/#conor' },
+    publisher: { '@id': 'https://customersuccess.cx/#organisation' },
+  },
+];
+if (d.youtubeId) {
+  graph.push({
+    '@type': 'VideoObject',
+    name: d.title,
+    description: d.excerpt,
+    thumbnailUrl: d.thumbnail ?? `https://i.ytimg.com/vi/${d.youtubeId}/hqdefault.jpg`,
+    uploadDate: d.publishDate.toISOString(),
+    embedUrl: `https://www.youtube.com/embed/${d.youtubeId}`,
+    url: canonical,
+    creator: { '@id': 'https://customersuccess.cx/#conor' },
+  });
+}
+---
+<script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })} />

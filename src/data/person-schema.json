@@ -1,0 +1,51 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://customersuccess.cx/#conor",
+      "name": "Conor Pendergrast",
+      "jobTitle": "Fin AI Consultant",
+      "description": "Conor Pendergrast is an independent Fin AI consultant who helps B2B SaaS companies fix stuck Intercom Fin resolution rates. After nearly 10 years at Expensify, he works exclusively on Fin AI Agent, Procedures, and data connectors.",
+      "url": "https://customersuccess.cx/about",
+      "worksFor": {
+        "@id": "https://customersuccess.cx/#organisation"
+      },
+      "alumniOf": "Expensify",
+      "knowsAbout": [
+        "Intercom Fin",
+        "Fin AI Agent",
+        "Fin resolution rate",
+        "Fin Procedures",
+        "Fin data connectors",
+        "Customer support automation",
+        "B2B SaaS customer experience"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/conorpendergrast",
+        "https://community.intercom.com/members/conor-20362",
+        "https://community.intercom.com/p/expert-conor-pendergrast",
+        "https://www.youtube.com/@support-stack"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://customersuccess.cx/#organisation",
+      "name": "CustomerSuccess.cx",
+      "url": "https://customersuccess.cx/",
+      "description": "Independent Fin AI consultancy helping B2B SaaS companies fix stuck Intercom Fin resolution rates.",
+      "founder": {
+        "@id": "https://customersuccess.cx/#conor"
+      },
+      "knowsAbout": [
+        "Intercom Fin",
+        "Fin AI Agent",
+        "Customer support automation",
+        "B2B SaaS customer experience"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/conorpendergrast"
+      ]
+    }
+  ]
+}

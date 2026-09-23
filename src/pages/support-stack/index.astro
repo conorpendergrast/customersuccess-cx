@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { url, formatDate } from '../../lib/site';
+const posts = (await getCollection('support-stack', ({ data }) => data.publishDate <= new Date()))
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+---
+<Base
+  title="Support Stack - Intercom Setups by Real Customers | CustomerSuccess.cx"
+  description="Go behind the scenes with CX leaders as they share their real Intercom and Fin setups, hosted by Conor Pendergrast."
+  path="/support-stack"
+>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Support Stack</h1>
+      <p class="sub">Intercom and Fin setups by real customers, hosted by Conor Pendergrast.</p>
+      <p>Proof of concept: two of the 26 published episodes, exported straight from Squarespace by <code>scripts/export-squarespace.mjs</code>.</p>
+      <ul class="cards">
+        {posts.map((post) => (
+          <li class="card">
+            {post.data.thumbnail && <a href={url(`/support-stack/${post.id}`)}><img src={post.data.thumbnail} alt="" loading="lazy" /></a>}
+            <div class="body">
+              <p class="meta">{formatDate(post.data.publishDate)}{post.data.format === 'solo' ? ' · Solo' : ''}</p>
+              <h3><a href={url(`/support-stack/${post.id}`)}>{post.data.title}</a></h3>
+              <p>{post.data.excerpt}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
