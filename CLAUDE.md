@@ -40,6 +40,12 @@ First turn…
 The layout renders summary → resources → subscribe call-to-action → video → transcript
 automatically, and generates Article + VideoObject JSON-LD from the front matter.
 
+## Git conventions
+
+- **All changes go through a pull request.** Work on a branch, push it, and open a PR against
+  `main`. Never push directly to `main`, including for content and one-line fixes.
+- Merging to `main` is what deploys the site, so a PR's preview is the local build until then.
+
 ## Deployment
 
 `.github/workflows/deploy.yml` builds and publishes to GitHub Pages on every push to `main`.
